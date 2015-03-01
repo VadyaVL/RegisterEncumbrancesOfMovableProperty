@@ -6,6 +6,14 @@ from forms import *
 def home(request):
     return render(request, 'home.html')
 
+def add(request):
+
+    args = {}
+    args['formE'] = EncumbranceForm
+
+    return render(request, 'addHead.html', args)
+
+
 #Currency - тип валюти
 def vCurrency(request):
     args = {}
@@ -208,4 +216,61 @@ def eTypeReg(request, id=0):
         else:
             return render(request, 'add.html', args)
     args['form'] = TypeRegForm(instance = type)
+    return render(request, 'add.html', args)
+
+#Address - адреси проживання осіб
+def vAddress(request):
+    args = {}
+    args['key'] = 'address'
+    args['list'] = Address.objects.all()
+    return render(request, 'view.html', args)
+
+def aAddress(request):
+
+    args = {}
+    args['form'] = AddressForm
+
+    if request.POST:
+        args['form'] = AddressForm(request.POST, request.FILES)
+        if args['form'].is_valid():
+            addrC = args['form'].save(commit=False)
+            addrC.save()
+            args['list'] = Address.objects.all()
+            args['key'] = 'address'
+            return render(request, 'view.html', args)
+
+    return render(request, 'add.html', args)
+
+def dAddress(request, id=0):
+
+    Address.objects.get(id=id).delete()
+    args = {}
+    args['list'] = Address.objects.all()
+    args['key'] = 'typereg'
+    return render(request, 'view.html', args)
+
+def eAddress(request, id=0):
+    args = {}
+
+    addrR = Address.objects.get(id=id)
+
+    if request.POST:
+        args['form'] = AddressForm(request.POST)
+
+        if args['form'].is_valid():
+            addrT = args['form'].save(commit=False)
+            addrR.Country = addrT.Country
+            addrR.Index = addrT.Index
+            addrR.Area = addrT.Area
+            addrR.Region = addrT.Region
+            addrR.City = addrT.City
+            addrR.Street = addrT.Street
+            addrR.Home = addrT.Home
+            addrR.save()
+            args['list'] = Address.objects.all()
+            args['key'] = 'address'
+            return render(request, 'view.html', args)
+        else:
+            return render(request, 'add.html', args)
+    args['form'] = AddressForm(instance = addrR)
     return render(request, 'add.html', args)

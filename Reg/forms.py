@@ -4,6 +4,7 @@ from django.forms import ModelForm
 from models import *
 
 
+
 class TypeCurrencyForm(ModelForm):
     class Meta:
         model = TypeOfCurrency
@@ -23,3 +24,21 @@ class TypeRegForm(ModelForm):
     class Meta:
         model = TypeReg
         fields = ['Name']
+
+class AddressForm(ModelForm):
+    class Meta:
+        model = Address
+
+class EncumbranceForm(ModelForm):
+    class Meta:
+        model = Encumbrance
+        fields = [
+            'NStatement',
+            'TypeOfEncumbrance',
+            'ViewEncumbrance',
+            'TypeReg',
+            'Date',
+            'AddedInfo',
+            'WPerson',
+            'SPerson',
+        ]

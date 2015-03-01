@@ -25,6 +25,13 @@ urlpatterns = patterns('',
     url(r'^edit/typereg/(?P<id>\d+)/$', views.eTypeReg),
     url(r'^add/typereg/', views.aTypeReg),
 
+    url(r'^address/', views.vAddress),
+    url(r'^delete/address/(?P<id>\d+)/$', views.dAddress),
+    url(r'^edit/address/(?P<id>\d+)/$', views.eAddress),
+    url(r'^add/address/', views.aAddress),
+
+    url(r'^add/', views.add),
+
     url(r'^home/', views.home),
     url(r'^', views.home),
 )

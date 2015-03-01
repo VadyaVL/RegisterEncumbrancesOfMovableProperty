@@ -43,8 +43,11 @@ class Person(models.Model):
     Identification = models.CharField(max_length=10, db_column='Identification', null=False, verbose_name='Ідентифікаційний номер')
     NonResidentForeigner = models.BooleanField(db_column='NonResidentForeigner', default=False, verbose_name='Не резидент')
     Name = models.CharField(max_length=100, db_column='Name', null=False, verbose_name='Ф.І.О.')
-    MoreInformation = models.CharField(max_length=500, db_column='MoreInformation', null=False, verbose_name='Дод. інф.')
+    MoreInformation = models.CharField(max_length=500, db_column='MoreInformation', null=True, verbose_name='Дод. інф.')
     Address = models.ForeignKey('Address')
+
+    def __str__(self):
+        return (self.Name + ' (' + self.Identification + ')').encode('utf8')
 
     class Meta:
         db_table = 'Person'
@@ -58,12 +61,14 @@ class Address(models.Model):
     Street = models.CharField(max_length=45, db_column='Street', null=False, verbose_name='Вулиця')
     Home = models.CharField(max_length=45, db_column='Home', null=False, verbose_name='дім/буд.')
 
+    def __str__(self):
+        return (self.Country + ', ' + self.Region + ', ' + self.Area + ', ' + self.City).encode('utf8')
+
     class Meta:
         db_table = "Address"
 
 # На одній сторінці заповнюємо інформацію про
 class Encumbrance(models.Model):
-    DateTime = models.DateTimeField(db_column='DateTime', null=False, verbose_name='Дата внесення')
     NStatement = models.IntegerField(db_column='NStatement', null=False, verbose_name='Номер заяви')
     DateStatement = models.DateField(db_column='DateStatement', null=False, verbose_name='Дата заяви')
     TypeOfEncumbrance = models.ForeignKey(TypeOfEncumbrance)
@@ -72,9 +77,9 @@ class Encumbrance(models.Model):
     Date = models.DateField(db_column='Date', null=False, verbose_name='Дата')
     AddedInfo = models.CharField(max_length=500, db_column='AddedInfo', null=True, verbose_name='Дод. інф.')
     #Обтяжувач
-    WPerson = models.ManyToManyField(Person, related_name='W')
+    WPerson = models.ManyToManyField(Person, related_name='W', help_text='Виберіть декілька обтяжувачів')
     #Не обтяжувач
-    SPerson = models.ManyToManyField(Person, related_name='S')
+    SPerson = models.ManyToManyField(Person, related_name='S', help_text='Виберіть декілька боржників')
 
     class Meta:
         db_table = 'Encumbrance'
