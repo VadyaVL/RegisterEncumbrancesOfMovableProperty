@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Reg',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -58,8 +59,11 @@ WSGI_APPLICATION = 'Reg.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'Reg',
+        'USER': 'root',
+        'PASSWORD': '1111',
+        'HOST': 'localhost',
     }
 }
 
@@ -81,6 +85,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+STATICFILES_DIRS = (
+    '../Reg/static/',
+)
+
 
 TEMPLATE_DIRS = (
     '../Reg/Templates/',

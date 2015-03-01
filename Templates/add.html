@@ -1,0 +1,11 @@
+{%extends 'base.html'%}
+
+{%block content%}
+    <form method="POST">
+        {% csrf_token %}
+
+        {{form}}
+        <input class="btn pull-right" type="submit" value="OK">
+
+    </form>
+{%endblock%}

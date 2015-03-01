@@ -1,0 +1,15 @@
+{%extends 'base.html'%}
+
+{%block content%}
+    <table border="1">
+        {%for i in list%}
+           <tr>
+               <td style="border: 1" width="60%"><center>{{i}}</center></td>
+               <td style="border: 0"><a href="/edit/{{key}}/{{i.id}}/"><button class="btn">редагувати</button></a></td>
+               <td style="border: 0"><a href="/delete/{{key}}/{{i.id}}/"><button class="btn">видалити</button></a></td>
+           </tr>
+        {%endfor%}
+    </table>
+    <br>
+    <a href="/add/{{key}}/"><button class="btn pull-right">Додати</button></a>
+{%endblock%}
