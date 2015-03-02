@@ -64,6 +64,9 @@ class Address(models.Model):
     def __str__(self):
         return (self.Country + ', ' + self.Region + ', ' + self.Area + ', ' + self.City).encode('utf8')
 
+    #def __iter__(self):
+    #    return iter([self.id, self.Country, self.Index, self.Region, self.Area, self.City, self.Street, self.Home])
+
     class Meta:
         db_table = "Address"
 
@@ -71,15 +74,18 @@ class Address(models.Model):
 class Encumbrance(models.Model):
     NStatement = models.IntegerField(db_column='NStatement', null=False, verbose_name='Номер заяви')
     DateStatement = models.DateField(db_column='DateStatement', null=False, verbose_name='Дата заяви')
-    TypeOfEncumbrance = models.ForeignKey(TypeOfEncumbrance)
-    TypeReg = models.ForeignKey(TypeReg)
-    ViewEncumbrance = models.ForeignKey(ViewEncumbrance)
+    TypeOfEncumbrance = models.ForeignKey(TypeOfEncumbrance, verbose_name='Тип обтяження')
+    TypeReg = models.ForeignKey(TypeReg, verbose_name='Тип реєстрації')
+    ViewEncumbrance = models.ForeignKey(ViewEncumbrance, verbose_name='Вид обтяження')
     Date = models.DateField(db_column='Date', null=False, verbose_name='Дата')
     AddedInfo = models.CharField(max_length=500, db_column='AddedInfo', null=True, verbose_name='Дод. інф.')
     #Обтяжувач
-    WPerson = models.ManyToManyField(Person, related_name='W', help_text='Виберіть декілька обтяжувачів')
+    WPerson = models.ManyToManyField(Person, related_name='W', verbose_name='Обтяжувач', help_text='')
     #Не обтяжувач
-    SPerson = models.ManyToManyField(Person, related_name='S', help_text='Виберіть декілька боржників')
+    SPerson = models.ManyToManyField(Person, related_name='S', verbose_name='Боржник')
+
+    def __str__(self):
+        return (str(self.id) + ' ' + str(self.Date) + ' ' + self.TypeOfEncumbrance.Name).encode('utf8')
 
     class Meta:
         db_table = 'Encumbrance'

@@ -2,6 +2,9 @@
 from django.shortcuts import render
 from models import *
 from forms import *
+import datetime
+
+from django.db.models import Q
 
 def home(request):
     return render(request, 'home.html')
@@ -10,9 +13,142 @@ def add(request):
 
     args = {}
     args['formE'] = EncumbranceForm
+    args['formO'] = ObjectForm
+    args['formD'] = DocumentForm
+    args['formT'] = TermForm
+
+    if request.POST:
+        args['formE'] = EncumbranceForm(request.POST, request.FILES)
+        args['formO'] = ObjectForm(request.POST, request.FILES)
+        args['formD'] = DocumentForm(request.POST, request.FILES)
+        args['formT'] = TermForm(request.POST, request.FILES)
+
+        if args['formE'].is_valid() and args['formO'] and args['formD'] and args['formT']:
+            emer = args['formE'].save(commit=False)
+            emer.Date = datetime.date.today()
+            emer.save()
+
+            for i in request.POST.getlist('SPerson'):
+                emer.SPerson.add(Person.objects.get(id=i))
+            for i in request.POST.getlist('WPerson'):
+                emer.WPerson.add(Person.objects.get(id=i))
+            emer.save()
+
+            ob = args['formO'].save(commit=False)
+            ob.Encumbrance = emer
+            ob.save()
+
+            doc = args['formD'].save(commit=False)
+            doc.Encumbrance = emer
+            doc.save()
+
+            term = args['formT'].save(commit=False)
+            term.Encumbrance = emer
+            term.save()
+
+            args['list'] = Encumbrance.objects.all()
+            args['key'] = 'encumbrance'
+            return render(request, 'view.html', args)
 
     return render(request, 'addHead.html', args)
 
+def view(request):
+    args = {}
+    args['key'] = 'encumbrance'
+    args['list'] = Encumbrance.objects.all()
+    return render(request, 'view.html', args)
+
+def delete(request, id=0):
+    enc = Encumbrance.objects.get(id=id)
+    try:
+        Object.objects.get(Encumbrance=enc).delete()
+    except:
+        pass
+    try:
+        DocumentBase.objects.get(Encumbrance=enc).delete()
+    except:
+        pass
+    try:
+        Terms.objects.get(Encumbrance=enc).delete()
+    except:
+        pass
+
+    enc.WPerson.clear()
+    enc.SPerson.clear()
+    enc.delete()
+
+    args = {}
+    args['key'] = 'encumbrance'
+    args['list'] = Encumbrance.objects.all()
+    return render(request, 'view.html', args)
+
+def edit(request, id=0):
+    args = {}
+
+    enc = Encumbrance.objects.get(id=id)
+    term = Terms.objects.get(Encumbrance=enc)
+    doc = DocumentBase.objects.get(Encumbrance=enc)
+    obj = Object.objects.get(Encumbrance=enc)
+
+    if request.POST:
+        args['formE'] = EncumbranceForm(request.POST)
+        args['formT'] = TermForm(request.POST)
+        args['formD'] = DocumentForm(request.POST)
+        args['formO'] = ObjectForm(request.POST)
+        if args['formE'].is_valid() and args['formT'].is_valid() and args['formD'].is_valid() and args['formO'].is_valid():
+
+            termT = args['formT'].save(commit=False)
+            term.SizeObligations = termT.SizeObligations
+            term.LimitDate = termT.LimitDate
+            term.AddedInfo = termT.AddedInfo
+            term.TypeOfCurrency = termT.TypeOfCurrency
+            term.save()
+
+            docT = args['formD'].save(commit=False)
+            doc.Name = docT.Name
+            doc.Number = docT.Number
+            doc.Date = docT.Date
+            doc.PublisherName = docT.PublisherName
+            doc.save()
+
+            objT = args['formO'].save(commit=False)
+            obj.Name = objT.Name
+            obj.SerialNumber = objT.SerialNumber
+            obj.RegNumber = objT.RegNumber
+            obj.AddedInfoForUNMovable = objT.AddedInfoForUNMovable
+            obj.save()
+
+            encT = args['formE'].save(commit=False)
+            enc.NStatement = encT.NStatement
+            enc.DateStatement = encT.DateStatement
+            enc.TypeOfEncumbrance = encT.TypeOfEncumbrance
+            enc.TypeReg = encT.TypeReg
+            enc.ViewEncumbrance = encT.ViewEncumbrance
+            enc.TypeOfEncumbrance = encT.TypeOfEncumbrance
+            enc.AddedInfo = encT.AddedInfo
+            enc.TypeOfEncumbrance = encT.TypeOfEncumbrance
+
+            enc.WPerson.clear()
+            enc.SPerson.clear()
+
+            for i in request.POST.getlist('SPerson'):
+                enc.SPerson.add(Person.objects.get(id=i))
+            for i in request.POST.getlist('WPerson'):
+                enc.WPerson.add(Person.objects.get(id=i))
+            enc.save()
+
+            args['list'] = Encumbrance.objects.all()
+            args['key'] = 'encumbrance'
+            return render(request, 'view.html', args)
+        else:
+            return render(request, 'addHead.html', args)
+    args['formE'] = EncumbranceForm(instance = enc)
+    args['formD'] = DocumentForm(instance = doc)
+    args['formT'] = TermForm(instance = term)
+    args['formO'] = ObjectForm(instance = obj)
+    return render(request, 'addHead.html', args)
+
+#додати редагування обтяження і готово
 
 #Currency - тип валюти
 def vCurrency(request):
@@ -273,4 +409,59 @@ def eAddress(request, id=0):
         else:
             return render(request, 'add.html', args)
     args['form'] = AddressForm(instance = addrR)
+    return render(request, 'add.html', args)
+
+#Person - особи
+def vPerson(request):
+    args = {}
+    args['key'] = 'person'
+    args['list'] = Person.objects.all()
+    return render(request, 'view.html', args)
+
+def aPerson(request):
+
+    args = {}
+    args['form'] = PersonForm
+
+    if request.POST:
+        args['form'] = PersonForm(request.POST, request.FILES)
+        if args['form'].is_valid():
+            perC = args['form'].save(commit=False)
+            perC.save()
+            args['list'] = Person.objects.all()
+            args['key'] = 'person'
+            return render(request, 'view.html', args)
+
+    return render(request, 'add.html', args)
+
+def dPerson(request, id=0):
+
+    Person.objects.get(id=id).delete()
+    args = {}
+    args['list'] = Person.objects.all()
+    args['key'] = 'person'
+    return render(request, 'view.html', args)
+
+def ePerson(request, id=0):
+    args = {}
+
+    perR = Person.objects.get(id=id)
+
+    if request.POST:
+        args['form'] = PersonForm(request.POST)
+
+        if args['form'].is_valid():
+            perT = args['form'].save(commit=False)
+            perR.Identification = perT.Identification
+            perR.Name = perT.Name
+            perR.NonResidentForeigner = perT.NonResidentForeigner
+            perR.MoreInformation = perT.MoreInformation
+            perR.Address = perT.Address
+            perR.save()
+            args['list'] = Person.objects.all()
+            args['key'] = 'person'
+            return render(request, 'view.html', args)
+        else:
+            return render(request, 'add.html', args)
+    args['form'] = PersonForm(instance = perR)
     return render(request, 'add.html', args)

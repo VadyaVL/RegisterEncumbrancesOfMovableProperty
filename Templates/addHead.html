@@ -3,8 +3,35 @@
 {%block content%}
     <form method="POST">
         {% csrf_token %}
-        {{formE}}
-        <input class="btn pull-right" type="submit" value="OK">
+
+        <div class="row">
+            <div class="span3">
+                <div class="page-header">
+                    <h4>Обтяження</h4>
+                </div>
+              {{formE}}
+            </div>
+            <div class="span3">
+                <div class="page-header">
+                    <h4>Предмет</h4>
+                </div>
+                {{formO}}
+           </div>
+            <div class="span3">
+                <div class="page-header">
+                    <h4>Документ-підстава</h4>
+                </div>
+                {{formD}}
+
+            </div>
+             <div class="span3">
+                <div class="page-header">
+                    <h4>Умови</h4>
+                </div>
+                {{formT}}
+                <input class="btn pull-right" type="submit" value="Зберегти">
+            </div>
+      </div>
 
     </form>
 {%endblock%}

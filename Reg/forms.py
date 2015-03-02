@@ -4,7 +4,6 @@ from django.forms import ModelForm
 from models import *
 
 
-
 class TypeCurrencyForm(ModelForm):
     class Meta:
         model = TypeOfCurrency
@@ -28,17 +27,69 @@ class TypeRegForm(ModelForm):
 class AddressForm(ModelForm):
     class Meta:
         model = Address
+        fields = [
+            'Country',
+            'Index',
+            'Region',
+            'Area',
+            'City',
+            'Street',
+            'Home',
+        ]
+
+
 
 class EncumbranceForm(ModelForm):
     class Meta:
         model = Encumbrance
         fields = [
             'NStatement',
+            'DateStatement',
             'TypeOfEncumbrance',
             'ViewEncumbrance',
             'TypeReg',
-            'Date',
             'AddedInfo',
             'WPerson',
             'SPerson',
+        ]
+
+class PersonForm(ModelForm):
+    class Meta:
+        model = Person
+        fields = [
+            'Identification',
+            'NonResidentForeigner',
+            'Name',
+            'MoreInformation',
+            'Address',
+        ]
+
+class ObjectForm(ModelForm):
+    class Meta:
+        model = Object
+        fields = [
+        'Name',
+        'SerialNumber',
+        'RegNumber',
+        'AddedInfoForUNMovable',
+        ]
+
+class DocumentForm(ModelForm):
+    class Meta:
+        model = DocumentBase
+        fields = [
+            'Name',
+            'Number',
+            'Date',
+            'PublisherName',
+        ]
+
+class TermForm(ModelForm):
+    class Meta:
+        model = Terms
+        fields = [
+            'SizeObligations',
+            'LimitDate',
+            'AddedInfo',
+            'TypeOfCurrency',
         ]

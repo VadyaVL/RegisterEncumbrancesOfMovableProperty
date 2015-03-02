@@ -15,23 +15,20 @@
 </head>
 
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+
+<div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
-        <div class="container">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+        <div class="container-fluid">
 
           <a class="brand" href="/">Реєстр</a>
         </div>
       </div>
     </div>
 
-    <div class="row">
-        <div class="container">
-        <div class="span3">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="span3">
               <div class="well sidebar-nav">
                 <ul class="nav nav-list">
                   <li class="nav-header">Sidebar</li>
@@ -39,11 +36,10 @@
                   <li><a href="/type/">Тип</a></li>
                   <li><a href="/typereg/">Тип реєстрації</a></li>
                   <li><a href="/currency/">Валюта</a></li>
-                    <li><a href="/add/">Дод. обтяж.</a></li>
+                  <li><a href="/person/">Особи</a></li>
+                    <li><a href="/encumbrance/">Обтяження</a></li>
 
 
-
-                    <li><a href="/address/">Адрес</a></li>
 
 
                 </ul>
@@ -51,7 +47,7 @@
             </div>
 
             <div class="span6">
-                <div class="hero-unit">
+                <div class="container">
                 {%block content%} {%endblock%}
                 </div>
             </div>

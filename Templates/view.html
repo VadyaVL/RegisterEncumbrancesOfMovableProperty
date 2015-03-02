@@ -1,15 +1,21 @@
 {%extends 'base.html'%}
 
 {%block content%}
+
+    {%if key = 'person'%}
+        <a href="/address/"><button class="btn pull-left">Перегляд адрес</button></a>
+
+<br><br>
+    {%endif%}
+
     <table border="1">
         {%for i in list%}
            <tr>
-               <td style="border: 1" width="60%"><center>{{i}}</center></td>
+               <td style="border: 1"><center><p style="font-size: 10pt">{{i}}</p></center></td>
                <td style="border: 0"><a href="/edit/{{key}}/{{i.id}}/"><button class="btn">редагувати</button></a></td>
                <td style="border: 0"><a href="/delete/{{key}}/{{i.id}}/"><button class="btn">видалити</button></a></td>
            </tr>
         {%endfor%}
     </table>
-    <br>
-    <a href="/add/{{key}}/"><button class="btn pull-right">Додати</button></a>
+    <a href="/add/{{key}}/"><button class="btn pull-left">Додати</button></a>
 {%endblock%}

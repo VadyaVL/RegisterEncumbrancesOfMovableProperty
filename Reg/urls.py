@@ -30,7 +30,15 @@ urlpatterns = patterns('',
     url(r'^edit/address/(?P<id>\d+)/$', views.eAddress),
     url(r'^add/address/', views.aAddress),
 
+    url(r'^person/', views.vPerson),
+    url(r'^delete/person/(?P<id>\d+)/$', views.dPerson),
+    url(r'^edit/person/(?P<id>\d+)/$', views.ePerson),
+    url(r'^add/person/', views.aPerson),
+
     url(r'^add/', views.add),
+    url(r'^encumbrance/', views.view),
+    url(r'^delete/encumbrance/(?P<id>\d+)/$', views.delete),
+    url(r'^edit/encumbrance/(?P<id>\d+)/$', views.edit),
 
     url(r'^home/', views.home),
     url(r'^', views.home),
