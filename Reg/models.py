@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 
+"""
+Персона, Обтяження, об'єкт, документ, умова
+"""
+
 # Категорії
 class ViewEncumbrance(models.Model):
     Name = models.CharField(max_length=45, null=False, db_column='Name', verbose_name='Вид')
@@ -119,3 +123,9 @@ class Terms(models.Model):
 
     class Meta:
         db_table = 'Terms'
+
+
+"""
+Персона та Обтяження потребує глибокої логіки...
+Подібна але простіша має бути в Умовах
+"""

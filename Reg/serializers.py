@@ -1,7 +1,6 @@
-from models import Person, Address
+# -*- coding: utf-8 -*-
+from models import *
 from rest_framework import serializers
-from rest_framework import viewsets
-from serializers import *
 
 class AddressSerializer(serializers.HyperlinkedModelSerializer):
 
@@ -63,4 +62,76 @@ class PersonSerializer(serializers.HyperlinkedModelSerializer):
             'NonResidentForeigner',
             'MoreInformation',
             'Address',
+        )
+
+class TypeOfEncumbranceSerializer(serializers.HyperlinkedModelSerializer):
+
+    def create(self, validated_data):
+        return TypeOfEncumbrance.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.id = validated_data.get('id', instance.id)
+        instance.Name = validated_data.get('Name', instance.Name)
+        instance.save()
+        return instance
+
+    class Meta:
+        model = TypeOfEncumbrance
+        fields = (
+            'id',
+            'Name',
+        )
+
+class ViewEncumbranceSerializer(serializers.HyperlinkedModelSerializer):
+
+    def create(self, validated_data):
+        return ViewEncumbrance.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.id = validated_data.get('id', instance.id)
+        instance.Name = validated_data.get('Name', instance.Name)
+        instance.save()
+        return instance
+
+    class Meta:
+        model = ViewEncumbrance
+        fields = (
+            'id',
+            'Name',
+        )
+
+class TypeRegSerializer(serializers.HyperlinkedModelSerializer):
+
+    def create(self, validated_data):
+        return TypeReg.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.id = validated_data.get('id', instance.id)
+        instance.Name = validated_data.get('Name', instance.Name)
+        instance.save()
+        return instance
+
+    class Meta:
+        model = TypeReg
+        fields = (
+            'id',
+            'Name',
+        )
+
+class TypeOfCurrencySerializer(serializers.HyperlinkedModelSerializer):
+
+    def create(self, validated_data):
+        return TypeOfCurrency.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.id = validated_data.get('id', instance.id)
+        instance.Name = validated_data.get('Name', instance.Name)
+        instance.save()
+        return instance
+
+    class Meta:
+        model = TypeOfCurrency
+        fields = (
+            'id',
+            'Name',
         )

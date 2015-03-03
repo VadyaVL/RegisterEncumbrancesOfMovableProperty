@@ -8,10 +8,19 @@ import restApi
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^persons/$', restApi.PersonList.as_view()),
-    url(r'^persons/(?P<pk>\d+)/$', restApi.PersonDetail.as_view()),
+    url(r'^personsrest/$', restApi.PersonList.as_view()),
+    url(r'^personsrest/(?P<pk>\d+)/$', restApi.PersonDetail.as_view()),
+
     url(r'^addressrest/$', restApi.AddressList.as_view()),
     url(r'^addressrest/(?P<pk>\d+)/$', restApi.AddressDetail.as_view()),
+    url(r'^typerest/$', restApi.TypeOfEncumbranceList.as_view()),
+    url(r'^typerest/(?P<pk>\d+)/$', restApi.TypeOfEncumbranceDetail.as_view()),
+    url(r'^viewrest/$', restApi.ViewEncumbranceList.as_view()),
+    url(r'^viewrest/(?P<pk>\d+)/$', restApi.ViewEncumbranceDetail.as_view()),
+    url(r'^typeregrest/$', restApi.TypeRegList.as_view()),
+    url(r'^typeregrest/(?P<pk>\d+)/$', restApi.TypeRegDetail.as_view()),
+    url(r'^currencyrest/$', restApi.TypeOfCurrencyList.as_view()),
+    url(r'^currencyrest/(?P<pk>\d+)/$', restApi.TypeOfCurrencyDetail.as_view()),
 
     url(r'^currency/', views.vCurrency),
     url(r'^delete/currency/(?P<id>\d+)/$', views.dCurrency),
