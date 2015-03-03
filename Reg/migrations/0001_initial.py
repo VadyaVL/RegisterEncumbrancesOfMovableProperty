@@ -45,7 +45,6 @@ class Migration(migrations.Migration):
             name='Encumbrance',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('DateTime', models.DateTimeField(verbose_name=b'\xd0\x94\xd0\xb0\xd1\x82\xd0\xb0 \xd0\xb2\xd0\xbd\xd0\xb5\xd1\x81\xd0\xb5\xd0\xbd\xd0\xbd\xd1\x8f', db_column=b'DateTime')),
                 ('NStatement', models.IntegerField(verbose_name=b'\xd0\x9d\xd0\xbe\xd0\xbc\xd0\xb5\xd1\x80 \xd0\xb7\xd0\xb0\xd1\x8f\xd0\xb2\xd0\xb8', db_column=b'NStatement')),
                 ('DateStatement', models.DateField(verbose_name=b'\xd0\x94\xd0\xb0\xd1\x82\xd0\xb0 \xd0\xb7\xd0\xb0\xd1\x8f\xd0\xb2\xd0\xb8', db_column=b'DateStatement')),
                 ('Date', models.DateField(verbose_name=b'\xd0\x94\xd0\xb0\xd1\x82\xd0\xb0', db_column=b'Date')),
@@ -78,7 +77,7 @@ class Migration(migrations.Migration):
                 ('Identification', models.CharField(max_length=10, verbose_name=b'\xd0\x86\xd0\xb4\xd0\xb5\xd0\xbd\xd1\x82\xd0\xb8\xd1\x84\xd1\x96\xd0\xba\xd0\xb0\xd1\x86\xd1\x96\xd0\xb9\xd0\xbd\xd0\xb8\xd0\xb9 \xd0\xbd\xd0\xbe\xd0\xbc\xd0\xb5\xd1\x80', db_column=b'Identification')),
                 ('NonResidentForeigner', models.BooleanField(default=False, verbose_name=b'\xd0\x9d\xd0\xb5 \xd1\x80\xd0\xb5\xd0\xb7\xd0\xb8\xd0\xb4\xd0\xb5\xd0\xbd\xd1\x82', db_column=b'NonResidentForeigner')),
                 ('Name', models.CharField(max_length=100, verbose_name=b'\xd0\xa4.\xd0\x86.\xd0\x9e.', db_column=b'Name')),
-                ('MoreInformation', models.CharField(max_length=500, verbose_name=b'\xd0\x94\xd0\xbe\xd0\xb4. \xd1\x96\xd0\xbd\xd1\x84.', db_column=b'MoreInformation')),
+                ('MoreInformation', models.CharField(max_length=500, null=True, verbose_name=b'\xd0\x94\xd0\xbe\xd0\xb4. \xd1\x96\xd0\xbd\xd1\x84.', db_column=b'MoreInformation')),
                 ('Address', models.ForeignKey(to='Reg.Address')),
             ],
             options={
@@ -152,20 +151,32 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='encumbrance',
+            name='SPerson',
+            field=models.ManyToManyField(related_name='S', verbose_name=b'\xd0\x91\xd0\xbe\xd1\x80\xd0\xb6\xd0\xbd\xd0\xb8\xd0\xba', to='Reg.Person'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='encumbrance',
             name='TypeOfEncumbrance',
-            field=models.ForeignKey(to='Reg.TypeOfEncumbrance'),
+            field=models.ForeignKey(verbose_name=b'\xd0\xa2\xd0\xb8\xd0\xbf \xd0\xbe\xd0\xb1\xd1\x82\xd1\x8f\xd0\xb6\xd0\xb5\xd0\xbd\xd0\xbd\xd1\x8f', to='Reg.TypeOfEncumbrance'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='encumbrance',
             name='TypeReg',
-            field=models.ForeignKey(to='Reg.TypeReg'),
+            field=models.ForeignKey(verbose_name=b'\xd0\xa2\xd0\xb8\xd0\xbf \xd1\x80\xd0\xb5\xd1\x94\xd1\x81\xd1\x82\xd1\x80\xd0\xb0\xd1\x86\xd1\x96\xd1\x97', to='Reg.TypeReg'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='encumbrance',
             name='ViewEncumbrance',
-            field=models.ForeignKey(to='Reg.ViewEncumbrance'),
+            field=models.ForeignKey(verbose_name=b'\xd0\x92\xd0\xb8\xd0\xb4 \xd0\xbe\xd0\xb1\xd1\x82\xd1\x8f\xd0\xb6\xd0\xb5\xd0\xbd\xd0\xbd\xd1\x8f', to='Reg.ViewEncumbrance'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='encumbrance',
+            name='WPerson',
+            field=models.ManyToManyField(help_text=b'', related_name='W', verbose_name=b'\xd0\x9e\xd0\xb1\xd1\x82\xd1\x8f\xd0\xb6\xd1\x83\xd0\xb2\xd0\xb0\xd1\x87', to='Reg.Person'),
             preserve_default=True,
         ),
         migrations.AddField(

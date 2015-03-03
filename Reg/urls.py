@@ -1,9 +1,17 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 import views
+from rest_framework.urlpatterns import format_suffix_patterns
+from django.conf.urls import include
+import restApi
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
+
+    url(r'^persons/$', restApi.PersonList.as_view()),
+    url(r'^persons/(?P<pk>\d+)/$', restApi.PersonDetail.as_view()),
+    url(r'^addressrest/$', restApi.AddressList.as_view()),
+    url(r'^addressrest/(?P<pk>\d+)/$', restApi.AddressDetail.as_view()),
 
     url(r'^currency/', views.vCurrency),
     url(r'^delete/currency/(?P<id>\d+)/$', views.dCurrency),
@@ -43,3 +51,11 @@ urlpatterns = patterns('',
     url(r'^home/', views.home),
     url(r'^', views.home),
 )
+
+#urlpatterns += [
+#    url(r'^api-auth/', include('rest_framework.urls',
+#                               namespace='rest_framework')),
+#]
+
+urlpatterns = format_suffix_patterns(urlpatterns)
+

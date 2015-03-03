@@ -13,6 +13,10 @@ def add(request):
 
     args = {}
     args['formE'] = EncumbranceForm
+
+    args['formE'].base_fields['WPerson'].help_text = ''
+    args['formE'].base_fields['SPerson'].help_text = ''
+
     args['formO'] = ObjectForm
     args['formD'] = DocumentForm
     args['formT'] = TermForm
@@ -141,11 +145,17 @@ def edit(request, id=0):
             args['key'] = 'encumbrance'
             return render(request, 'view.html', args)
         else:
+            args['formE'].base_fields['WPerson'].help_text = ''
+            args['formE'].base_fields['SPerson'].help_text = ''
             return render(request, 'addHead.html', args)
     args['formE'] = EncumbranceForm(instance = enc)
     args['formD'] = DocumentForm(instance = doc)
     args['formT'] = TermForm(instance = term)
     args['formO'] = ObjectForm(instance = obj)
+
+    args['formE'].base_fields['WPerson'].help_text = ''
+    args['formE'].base_fields['SPerson'].help_text = ''
+
     return render(request, 'addHead.html', args)
 
 #додати редагування обтяження і готово

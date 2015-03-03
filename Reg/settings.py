@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Reg',
+    'rest_framework',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -96,6 +97,7 @@ TEMPLATE_DIRS = (
     '../Reg/Templates/',
 )
 
-STATICFILES_DIRS = (
-    '../Reg/static/',
-)
+REST_FRAMEWORK = {
+    #'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    'PAGINATE_BY': 10
+}
