@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-
+from rest_framework import serializers
 """
-Персона, Обтяження, об'єкт, документ, умова
+об'єкт, документ,
 """
 
 # Категорії
@@ -48,7 +48,7 @@ class Person(models.Model):
     NonResidentForeigner = models.BooleanField(db_column='NonResidentForeigner', default=False, verbose_name='Не резидент')
     Name = models.CharField(max_length=100, db_column='Name', null=False, verbose_name='Ф.І.О.')
     MoreInformation = models.CharField(max_length=500, db_column='MoreInformation', null=True, verbose_name='Дод. інф.')
-    Address = models.ForeignKey('Address')
+    Address = models.ForeignKey('Address', null = True)
 
     def __str__(self):
         return (self.Name + ' (' + self.Identification + ')').encode('utf8')
@@ -123,9 +123,3 @@ class Terms(models.Model):
 
     class Meta:
         db_table = 'Terms'
-
-
-"""
-Персона та Обтяження потребує глибокої логіки...
-Подібна але простіша має бути в Умовах
-"""

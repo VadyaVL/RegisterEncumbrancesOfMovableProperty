@@ -90,9 +90,20 @@ def edit(request, id=0):
     args = {}
 
     enc = Encumbrance.objects.get(id=id)
-    term = Terms.objects.get(Encumbrance=enc)
-    doc = DocumentBase.objects.get(Encumbrance=enc)
-    obj = Object.objects.get(Encumbrance=enc)
+    try:
+        term = Terms.objects.get(Encumbrance=enc)
+    except:
+        term = Terms()
+
+    try:
+        doc = DocumentBase.objects.get(Encumbrance=enc)
+    except:
+        doc = DocumentBase()
+
+    try:
+        obj = Object.objects.get(Encumbrance=enc)
+    except:
+        obj = Object()
 
     if request.POST:
         args['formE'] = EncumbranceForm(request.POST)
@@ -102,6 +113,7 @@ def edit(request, id=0):
         if args['formE'].is_valid() and args['formT'].is_valid() and args['formD'].is_valid() and args['formO'].is_valid():
 
             termT = args['formT'].save(commit=False)
+            term.Encumbrance = enc
             term.SizeObligations = termT.SizeObligations
             term.LimitDate = termT.LimitDate
             term.AddedInfo = termT.AddedInfo
@@ -110,6 +122,7 @@ def edit(request, id=0):
 
             docT = args['formD'].save(commit=False)
             doc.Name = docT.Name
+            doc.Encumbrance = enc
             doc.Number = docT.Number
             doc.Date = docT.Date
             doc.PublisherName = docT.PublisherName
@@ -117,6 +130,7 @@ def edit(request, id=0):
 
             objT = args['formO'].save(commit=False)
             obj.Name = objT.Name
+            obj.Encumbrance = enc
             obj.SerialNumber = objT.SerialNumber
             obj.RegNumber = objT.RegNumber
             obj.AddedInfoForUNMovable = objT.AddedInfoForUNMovable

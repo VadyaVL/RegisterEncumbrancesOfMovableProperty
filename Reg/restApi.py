@@ -65,6 +65,7 @@ class AddressList(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
+        print request.data
         serializer = AddressSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
@@ -267,4 +268,179 @@ class TypeOfCurrencyDetail(APIView):
     def delete(self, request, pk, format=None):
         typeOfCurrency = self.get_object(pk)
         typeOfCurrency.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class TermsList(APIView):
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+    def get(self, request, format=None):
+        terms = Terms.objects.all()
+        serializer = TermsSerializer(terms, many=True, context={'request': request})
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = TermsSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class TermsDetail(APIView):
+
+    def get_object(selfself, pk):
+        try:
+            return Terms.objects.get(pk=pk)
+        except Terms.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        terms = self.get_object(pk)
+        serialized = TermsSerializer(terms, context={'request': request})
+        return Response(serialized.data)
+
+    def put(self, request, pk, format=None):
+        terms = self.get_object(pk)
+        serializer = TermsSerializer(terms, data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        terms = self.get_object(pk)
+        terms.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class EncumbranceList(APIView):
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+    def get(self, request, format=None):
+        encumbrance = Encumbrance.objects.all()
+        serializer = EncumbranceSerializer(encumbrance, many=True, context={'request': request})
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = EncumbranceSerializer(data=request.data, context={'request': request})
+        print "ok"
+        if serializer.is_valid():
+            print serializer
+            serializer.save()
+            print "okq"
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class EncumbranceDetail(APIView):
+
+    def get_object(selfself, pk):
+        try:
+            return Encumbrance.objects.get(pk=pk)
+        except Encumbrance.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        encumbrance = self.get_object(pk)
+        serialized = EncumbranceSerializer(encumbrance, context={'request': request})
+        return Response(serialized.data)
+
+    def put(self, request, pk, format=None):
+        encumbrance = self.get_object(pk)
+        serializer = EncumbranceSerializer(encumbrance, data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        encumbrance = self.get_object(pk)
+        encumbrance.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class ObjectList(APIView):
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+    def get(self, request, format=None):
+        object = Object.objects.all()
+        serializer = ObjectSerializer(object, many=True, context={'request': request})
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = ObjectSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ObjectDetail(APIView):
+
+    def get_object(selfself, pk):
+        try:
+            return Object.objects.get(pk=pk)
+        except Object.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        object = self.get_object(pk)
+        serialized = ObjectSerializer(object, context={'request': request})
+        return Response(serialized.data)
+
+    def put(self, request, pk, format=None):
+        object = self.get_object(pk)
+        serializer = ObjectSerializer(object, data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        object = self.get_object(pk)
+        object.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class DocumentBaseList(APIView):
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+    def get(self, request, format=None):
+        documentBase = DocumentBase.objects.all()
+        serializer = DocumentBaseSerializer(documentBase, many=True, context={'request': request})
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = DocumentBaseSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class DocumentBaseDetail(APIView):
+
+    def get_object(selfself, pk):
+        try:
+            return DocumentBase.objects.get(pk=pk)
+        except DocumentBase.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        documentBase = self.get_object(pk)
+        serialized = DocumentBaseSerializer(documentBase, context={'request': request})
+        return Response(serialized.data)
+
+    def put(self, request, pk, format=None):
+        documentBase = self.get_object(pk)
+        serializer = DocumentBaseSerializer(documentBase, data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        documentBase = self.get_object(pk)
+        documentBase.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

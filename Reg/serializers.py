@@ -135,3 +135,128 @@ class TypeOfCurrencySerializer(serializers.HyperlinkedModelSerializer):
             'id',
             'Name',
         )
+
+class EncumbranceSerializer(serializers.HyperlinkedModelSerializer):
+    TypeOfEncumbrance = serializers.StringRelatedField(read_only=True)
+    TypeReg = serializers.StringRelatedField(read_only=True)
+    ViewEncumbrance = serializers.StringRelatedField(read_only=True)
+    #TypeOfEncumbrance = TypeOfEncumbranceSerializer(required=False)
+    #TypeReg = TypeRegSerializer(required=False)
+    #ViewEncumbrance = ViewEncumbranceSerializer(required=False)
+
+
+    def create(self, validated_data):
+        return Encumbrance.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.id = validated_data.get('id', instance.id)
+        instance.NStatement = validated_data.get('NStatement', instance.NStatement)
+        instance.DateStatement = validated_data.get('DateStatement', instance.DateStatement)
+        instance.TypeOfEncumbrance = validated_data.get('TypeOfEncumbrance', instance.TypeOfEncumbrance)
+        instance.TypeReg = validated_data.get('TypeReg', instance.TypeReg)
+        instance.ViewEncumbrance = validated_data.get('ViewEncumbrance', instance.ViewEncumbrance)
+        instance.Date = validated_data.get('Date', instance.Date)
+        instance.AddedInfo = validated_data.get('AddedInfo', instance.AddedInfo)
+        instance.save()
+        return instance
+
+    class Meta:
+        model = Encumbrance
+        fields = (
+            'id',
+            'NStatement',
+            'DateStatement',
+            'TypeOfEncumbrance',
+            'TypeReg',
+            'ViewEncumbrance',
+            'Date',
+            'AddedInfo',
+        )
+
+class TermsSerializer(serializers.HyperlinkedModelSerializer):
+    TypeOfCurrency = serializers.StringRelatedField(read_only=True)
+    Encumbrance = serializers.StringRelatedField(read_only=True)
+    def create(self, validated_data):
+        return Terms.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.id = validated_data.get('id', instance.id)
+        instance.SizeObligations = validated_data.get('SizeObligations', instance.SizeObligations)
+        instance.LimitDate = validated_data.get('LimitDate', instance.LimitDate)
+        instance.AddedInfo = validated_data.get('AddedInfo', instance.AddedInfo)
+        instance.TypeOfCurrency = validated_data.get('TypeOfCurrency', instance.TypeOfCurrency)
+        instance.Encumbrance = validated_data.get('Encumbrance', instance.Encumbrance)
+        instance.save()
+        return instance
+
+    class Meta:
+        model = Terms
+        fields = (
+            'id',
+            'SizeObligations',
+            'LimitDate',
+            'AddedInfo',
+            'TypeOfCurrency',
+            'Encumbrance'
+        )
+
+class ObjectSerializer(serializers.HyperlinkedModelSerializer):
+
+    Encumbrance = EncumbranceSerializer(read_only=True)
+
+    def create(self, validated_data):
+        return Object.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.id = validated_data.get('id', instance.id)
+        instance.Name = validated_data.get('Name', instance.Name)
+        instance.SerialNumber = validated_data.get('SerialNumber', instance.SerialNumber)
+        instance.RegNumber = validated_data.get('RegNumber', instance.RegNumber)
+        instance.AddedInfoForUNMovable = validated_data.get('AddedInfoForUNMovable', instance.AddedInfoForUNMovable)
+        instance.Encumbrance = validated_data.get('Encumbrance', instance.Encumbrance)
+        instance.save()
+
+        return instance
+
+    class Meta:
+        model = Object
+        fields = (
+            #'url',
+            'id',
+            'Name',
+            'SerialNumber',
+            'RegNumber',
+            'AddedInfoForUNMovable',
+            'Encumbrance',
+        )
+
+
+class DocumentBaseSerializer(serializers.HyperlinkedModelSerializer):
+
+    Encumbrance = EncumbranceSerializer(read_only=True)
+
+    def create(self, validated_data):
+        return Object.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.id = validated_data.get('id', instance.id)
+        instance.Name = validated_data.get('Name', instance.Name)
+        instance.Number = validated_data.get('Number', instance.Number)
+        instance.Date = validated_data.get('Date', instance.Date)
+        instance.PublisherName = validated_data.get('PublisherName', instance.PublisherName)
+        instance.Encumbrance = validated_data.get('Encumbrance', instance.Encumbrance)
+        instance.save()
+
+        return instance
+
+    class Meta:
+        model = DocumentBase
+        fields = (
+            #'url',
+            'id',
+            'Name',
+            'Number',
+            'Date',
+            'PublisherName',
+            'Encumbrance',
+        )
